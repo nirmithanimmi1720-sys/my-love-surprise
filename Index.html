@@ -1,1 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For You ❤️</title>
 
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    color: white;
+}
+
+.screen {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 25px;
+    flex-direction: column;
+}
+
+.screen.active {
+    display: flex;
+}
+
+.card {
+    width: 100%;
+    max-width: 420px;
+    padding: 35px 25px;
+    border-radius: 30px;
+    background: rgba(255,255,255,0.18);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+}
+
+h1 {
+    font-size: 38px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 18px;
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 25px;
+}
+
+button {
+    border: none;
+    padding: 14px 28px;
+    border-radius: 30px;
+    background: white;
+    color: #ff4f81;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: scale(0.95);
+}
+
+.heart {
+    font-size: 85px;
+    animation: beat 1s infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes beat {
+    0%,100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+}
+
+.typing {
+    font-size: 22px;
+    min-height: 80px;
+}
+
+.big-love {
+    font-size: 55px;
+    font-weight: bold;
+    animation: pop 1s ease;
+}
+
+@keyframes pop {
+    0% { transform: scale(0); }
+    70% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.from {
+    margin-top: 20px;
+    font-size: 17px;
+    font-style: italic;
+}
+
+.floating-heart {
+    position: fixed;
+    bottom: -30px;
+    font-size: 25px;
+    animation: floatUp 5s linear forwards;
+    pointer-events: none;
+}
+
+@keyframes floatUp {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+.small {
+    font-size: 15px;
+    opacity: 0.9;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SCREEN 1 -->
+<div class="screen active" id="screen1">
+    <div class="card">
+        <div class="heart">❤️</div>
+        <h1>Hey You...</h1>
+        <p>I've made something small...</p>
+        <p class="small">But it comes with a very big feeling. 🥹</p>
+        <button onclick="nextScreen(2)">Open it 💌</button>
+    </div>
+</div>
+
+<!-- SCREEN 2 -->
+<div class="screen" id="screen2">
+    <div class="card">
+        <h2>There is something...</h2>
+        <p id="typingText" class="typing"></p>
+        <button onclick="nextScreen(3)">Continue ❤️</button>
+    </div>
+</div>
+
+<!-- SCREEN 3 -->
+<div class="screen" id="screen3">
+    <div class="card">
+        <div class="heart">💗</div>
+        <h2>You know what?</h2>
+        <p>
+            Out of all the people in this world,
+            somehow my heart chose you.
+        </p>
+        <p>
+            And honestly... I'm really happy it did. 🥹❤️
+        </p>
+        <button onclick="nextScreen(4)">One more thing... 💕</button>
+    </div>
+</div>
+
+<!-- SCREEN 4 -->
+<div class="screen" id="screen4">
+    <div class="card">
+        <div class="heart">💓</div>
+        <h2>My favourite person...</h2>
+        <p>
+            Thank you for being you.
+            Thank you for being a part of my life.
+        </p>
+        <p>
+            No matter how many words I write,
+            they still won't be enough...
+        </p>
+        <button onclick="nextScreen(5)">Tap for the truth ❤️</button>
+    </div>
+</div>
+
+<!-- SCREEN 5 -->
+<div class="screen" id="screen5">
+    <div class="card">
+        <div class="big-love">I LOVE YOU ❤️</div>
+
+        <p style="margin-top:25px;">
+            More than these little words can explain. 🥹
+        </p>
+
+        <p>
+            You are special to me.
+            Always remember that. 💕
+        </p>
+
+        <div class="from">
+            — From someone who loves you ❤️
+        </div>
+    </div>
+</div>
+
+<script>
+
+function nextScreen(number) {
+
+    document.querySelectorAll(".screen").forEach(screen => {
+        screen.classList.remove("active");
+    });
+
+    document.getElementById("screen" + number).classList.add("active");
+
+    createHearts();
+
+    if(number === 2) {
+        startTyping();
+    }
+}
+
+function startTyping() {
+
+    const text =
+    "I don't know exactly when it happened... but somewhere along the way, you became someone very special to my heart. ❤️";
+
+    const element = document.getElementById("typingText");
+
+    element.innerHTML = "";
+
+    let i = 0;
+
+    function type() {
+        if(i < text.length) {
+            element.innerHTML += text.charAt(i);
+            i++;
+            setTimeout(type, 45);
+        }
+    }
+
+    type();
+}
+
+function createHearts() {
+
+    for(let i = 0; i < 12; i++) {
+
+        const heart = document.createElement("div");
+
+        heart.className = "floating-heart";
+
+        const hearts = ["❤️","💗","💕","💖","💓","💞"];
+
+        heart.innerHTML =
+            hearts[Math.floor(Math.random() * hearts.length)];
+
+        heart.style.left =
+            Math.random() * 100 + "vw";
+
+        heart.style.animationDuration =
+            (3 + Math.random() * 3) + "s";
+
+        heart.style.fontSize =
+            (18 + Math.random() * 25) + "px";
+
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }
+}
+
+</script>
+
+</body>
+</html>
